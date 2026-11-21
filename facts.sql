@@ -1,0 +1,4 @@
+INSERT INTO star.fact_consumption SELECT toYYYYMMDD(ts), toHour(ts)*60+toMinute(ts), toUInt32(substring(lclid,4)), multiIf(consumption_category='Low',1,consumption_category='Medium',2,3), kwh FROM dwh.electricity;
+INSERT INTO snowflake.fact_consumption SELECT toYYYYMMDD(ts), toHour(ts)*60+toMinute(ts), toUInt32(substring(lclid,4)), multiIf(consumption_category='Low',1,consumption_category='Medium',2,3), kwh FROM dwh.electricity;
+INSERT INTO constellation.fact_consumption SELECT toYYYYMMDD(ts), toHour(ts)*60+toMinute(ts), toUInt32(substring(lclid,4)), multiIf(consumption_category='Low',1,consumption_category='Medium',2,3), kwh FROM dwh.electricity;
+INSERT INTO constellation.fact_daily_usage SELECT toYYYYMMDD(ts) AS dk, toUInt32(substring(lclid,4)) AS hk, sum(kwh), avg(kwh), max(kwh), count() FROM dwh.electricity GROUP BY dk, hk;
